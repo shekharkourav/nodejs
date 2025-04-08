@@ -9,6 +9,8 @@
   "author": "shekhar kourav",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
     "express": "^5.1.0",
     "mongoose": "^8.13.2",
     "shortid": "^2.2.17"
