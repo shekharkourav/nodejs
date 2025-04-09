@@ -6,6 +6,12 @@
       body {
         font-family: Georgia, "Times New Roman", Times, serif;
       }
+      .border{
+        border: 1px solid black;
+      }
+      .t{
+        border-collapse: collapse;
+      }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>url-shortner</title>
@@ -13,7 +19,7 @@
   <body>
     <h1>URL Shortner</h1>
     <% if(locals.id){%>
-    <p>URL generated:http://localhost:8001/url/<%= id %></p>
+    <p>URL generated:http://localhost:8001/<%= id %></p>
     <% } %>
     <div>
       <form method="POST" action="/url">
@@ -21,6 +27,30 @@
         <input type="text" name="url" placeholder="https://example.com" />
         <button type="submit">Generate</button>
       </form>
+      <br/>
+    </div>
+    <div>
+      <% if (locals.urls) { %>
+       <table class="t">
+        <thead>
+          <th class="border">S.No</th>
+          <th class="border">ShortId</th>
+          <th class="border">RedirectUrl</th>
+          <th class="border">Clicks</th>
+        </thead>
+        <tbody>
+          
+            <% urls.forEach((url,index) => { %>
+              <tr class="border"></tr>
+                <td class="border"><%= index+1 %></td>
+                <td class="border"><%=url.shortId  %></td>
+                <td class="border"><%=url.redirectUrl %></td>
+                <td class="border"><%=url.visitHistory.length  %></td>
+              </tr>
+             <% }) %>
+        </tbody>
+       </table>
+      <% } %>
     </div>
   </body>
 </html>
