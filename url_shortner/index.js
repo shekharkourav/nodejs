@@ -8,7 +8,7 @@ const URL=require("./models/url");
 const urlRoute=require("./routes/url");
 const staticRoute=require("./routes/staticRouter");
 const userRoute=require("./routes/user");
-const {restrictToLoginUser,checkAuth}=require("./middlewares/auth");
+const {checkForAuthentication,restrictTo}=require("./middlewares/auth");
 
 connectToMongoDb("mongodb://127.0.0.1:27017/short-url")
 .then(()=>console.log("mongodb connected"))
@@ -20,11 +20,12 @@ app.set("views",path.resolve("./views"));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
 
-app.use("/url",restrictToLoginUser,urlRoute);
+app.use("/url",restrictTo(["NORMAL","ADMIN"]),urlRoute);
 app.use("/user",userRoute);
-app.use("/",checkAuth,staticRoute);
+app.use("/",staticRoute);
 
 app.get("/url/:shortId",async(req,res)=>{
   const shortId=req.params.shortId;
