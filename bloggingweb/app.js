@@ -1,3 +1,4 @@
+require("dotenv").config();
 const path=require("path");
 const express=require("express");
 const mongoose=require("mongoose");
@@ -11,8 +12,9 @@ const { checkForAuthenticationCookie } = require("./middlewares/authentication")
 const { TokenExpiredError } = require("jsonwebtoken");
 
 const app=express();
+const PORT=process.env.PORT||8000;
 
-mongoose.connect("mongodb://127.0.0.1:27017/blogify")
+mongoose.connect(process.env.MONGO_URL)
 .then(()=>console.log("mongodb connected"))
 .catch((err)=> console.log("mongo error",err));
 
@@ -37,6 +39,6 @@ app.get("/",async (req,res)=>{
 app.use("/user",userRoute);
 app.use("/blog",blogRoute);
 
-app.listen(8000,()=>{
+app.listen(PORT,()=>{
     console.log("server strted");
 })
